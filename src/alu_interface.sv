@@ -8,26 +8,27 @@ interface alu_inf(input logic CLK,input logic RST);
   logic [`WIDTH:0]RES;
 
   clocking drv_cb@(posedge CLK);
-    default input #0 output #0;
-    output OPA,OPB,CMD,CE,CIN,MODE,INP_VALID;
-  endclocking
+ default input #0 output #0;
+ input RST;    //optional
+ output OPA,OPB,INP_VALID,MODE,CMD,CE,CIN;
+endclocking
+
 
   clocking mon_cb@(posedge CLK);
-    default input #0 output #0;
-    input RES,ERR,OFLOW,COUT,G,L,E;
-     output CMD,MODE;
-  endclocking
+default input #0 output #0;
+ input RES,ERR,OFLOW,G,L,E,COUT,OPA,OPB,CIN,CE,MODE,CMD,INP_VALID;
+endclocking
 
   clocking ref_cb@(posedge CLK);
-      default input #0 output #0;
-      input RST;
-  endclocking
+default input #0 output #0;
+input RST;
+endclocking
 
   modport DRV(clocking drv_cb);
   modport MON(clocking mon_cb);
     modport REF(clocking ref_cb );
 
-//ASSERTIONS
+ASSERTIONS
 
   property prop1;
     @(posedge CLK)
