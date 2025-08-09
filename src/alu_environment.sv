@@ -34,7 +34,7 @@ class alu_environment;
       dri=new(mbx_gd,mbx_dr,drv_vif);
       ref_model=new(mbx_dr,mbx_rs,ref_vif);
       mon=new(mbx_ms,mon_vif);
-      score=new(mbx_rs,mbx_ms);
+      score=new(mbx_ms,mbx_rs);
     end
   endtask
 
