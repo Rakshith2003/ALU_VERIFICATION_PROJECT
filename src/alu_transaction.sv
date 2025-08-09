@@ -11,10 +11,11 @@ class alu_transaction;
 
   constraint inp_valid{INP_VALID == 3;}
   //constraint inp_valid{INP_VALID inside {1,2,3};}
-  constraint operands{OPA>OPB;}
+ // constraint operands{OPA>OPB;}
+  //constraint operands{OPA==10;OPB==5;}
   constraint ce{CE ==1;}
-  //constraint cmd{CMD inside {0,1,2,3,8};} //only 2 operands with inp=11
-  constraint cmd{CMD ==9;}
+  constraint cmd{CMD inside {0,1,2,3,8};} //only 2 operands with inp=11
+  //constraint cmd{CMD ==15;}
   constraint MODE_1{MODE==1;}
   //constraint a1{INP_VALID == 2'b01;}
 
@@ -33,9 +34,9 @@ endclass
 class alu_transaction1 extends alu_transaction;
 
   constraint inp_valid{INP_VALID ==3;}
-  constraint operands{OPA>OPB;}
+ // constraint operands{OPA>OPB;}
   //constraint ce{CE ==1;}
-  constraint cmd{CMD inside {0,1,2,3,8};}    //mul 3 cycle inp=11 check
+  constraint cmd{CMD inside {9,10};}
   constraint MODE_1{MODE==1;}
 
   constraint ce{CE ==1;}
@@ -60,9 +61,9 @@ endclass
 class alu_transaction2 extends alu_transaction;
 
   constraint inp_valid{INP_VALID==3;}
-  constraint operands{OPA>OPB;}
+  constraint operands{OPA<OPB;}
   constraint ce{CE ==1;}
-  constraint cmd{CMD inside {0,1,2,3,4,5,6,7,8,9,10,11,12,13};}//all arithmatic operators when inp=11
+  constraint cmd{CMD inside {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};}//all arithmatic operators when inp=11
   constraint MODE_1{MODE==1;}
 
 
@@ -82,10 +83,10 @@ endclass
 
 class alu_transaction3 extends alu_transaction;
 
-  constraint inp_valid{INP_VALID ==1;}
+  constraint inp_valid{INP_VALID inside {1,2};}
   //constraint operands{OPA>OPB;}
   constraint ce{CE ==1;}
-  constraint cmd{CMD inside {4,5};}  //single operands when inp=01
+  constraint cmd{CMD inside {4,5,6,7};}  //single operands when inp=01 or10 for mode=1
   constraint MODE_1{MODE==1;}
 
 
@@ -105,10 +106,10 @@ endclass
 
 class alu_transaction4 extends alu_transaction;
 
-  constraint inp_valid{INP_VALID ==2;}
-  //constraint operands{OPA>OPB;}
+  constraint inp_valid{INP_VALID inside {0,1,2,3};}
+  constraint operands{OPA==OPB;}
   constraint ce{CE ==1;}
-  constraint cmd{CMD inside {6,7};}//all 1 operand 10
+  constraint cmd{CMD inside {0,1,2,3,4,5,6,7,8,9,10};}//all arithmatic operators when inp={0,1,2,3}
   constraint MODE_1{MODE==1;}
 
 
@@ -126,12 +127,12 @@ class alu_transaction4 extends alu_transaction;
   endfunction
 endclass
 
-class alu_transaction5 extends alu_transaction;   //new
+class alu_transaction5 extends alu_transaction;  
 
   constraint inp_valid{INP_VALID == 3;}
   //constraint operands{OPA>OPB;}
   constraint ce{CE ==1;}
-  constraint cmd{CMD inside {0,1,2,3,4,5};}//all logical operators when inp=11
+  constraint cmd{CMD inside {0,1,2,3,4,5,12,13};}//two operand logical operators when inp=11
   constraint MODE_1{MODE==0;}
 
 
@@ -151,10 +152,10 @@ endclass
 
 class alu_transaction6 extends alu_transaction;
 
-  constraint inp_valid{INP_VALID== 1;}
-  //constraint operands{OPA>OPB;}
+  constraint inp_valid{INP_VALID== 3;}
+  constraint operands{OPB inside {[0:16]};}  //only for width =8
   constraint ce{CE ==1;}
-  constraint cmd{CMD inside {6,8,9};}  //single operands when inp=01 or 10
+  constraint cmd{CMD inside {12,13};} //rol and ror
   constraint MODE_1{MODE==0;}
 
 
@@ -174,10 +175,10 @@ endclass
 
 class alu_transaction7 extends alu_transaction;
 
-  constraint inp_valid{INP_VALID ==2;}
+  constraint inp_valid{INP_VALID ==1; }
   //constraint operands{OPA>OPB;}
   constraint ce{CE ==1;}
-  constraint cmd{CMD inside {7,10,11};}//all 1 operand logical operators when inp=01 or 10
+  constraint cmd{CMD inside {6,8,9};} //single operand opa
   constraint MODE_1{MODE==0;}
 
 
@@ -197,10 +198,9 @@ endclass
 
 class alu_transaction8 extends alu_transaction;
 
-  constraint inp_valid{INP_VALID ==3;}
-
+  constraint inp_valid{INP_VALID ==2;}
   constraint ce{CE ==1;}
-  constraint cmd{CMD inside {12,13};}
+  constraint cmd{CMD inside {7,10,11};}
   constraint MODE_1{MODE==0;}
 
 
@@ -222,9 +222,8 @@ class alu_transaction9 extends alu_transaction;
   constraint inp_valid{INP_VALID ==3;}
 
   constraint ce{CE ==1;}
-  constraint cmd{CMD inside {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14};}
+  constraint cmd{CMD inside {0,1,2,3,4,5,6,7,8,9,10,11,12,13};}//all logical operand
   constraint MODE_1{MODE==0;}
-
 
    virtual function alu_transaction copy();
     alu_transaction9 copy9;
@@ -244,9 +243,9 @@ endclass
 class alu_transaction10 extends alu_transaction;
 
   constraint inp_valid{INP_VALID == 0;}
-
   constraint ce{CE ==1;}
-  constraint cmd{CMD inside {0,1,2,3,4,5,12,13};}  //2 operand whne inp=00,01,10,11 logical arithmatic
+  //constraint operands{OPA>OPB;}
+  constraint cmd{CMD inside {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};} 
   constraint MODE_1{MODE inside {0,1};}
 
 
@@ -266,10 +265,10 @@ endclass
 
 class alu_transaction11 extends alu_transaction;
 
-  constraint inp_valid{INP_VALID inside {0,1,2,3};}
-
+  constraint inp_valid{INP_VALID ==3;}
+  constraint operands{OPA<OPB;}
   constraint ce{CE ==1;}
-  constraint cmd{CMD inside {0,1,2,3,8,9,10};}  //2 operand whne inp=00,01,10,11 arithmatic
+  constraint cmd{CMD inside{0,1,2,3};}  //2 operand whne inp=00,01,10,11 arithmatic
   constraint MODE_1{MODE==1;}
 
 
@@ -289,11 +288,11 @@ endclass
 
 class alu_transaction12 extends alu_transaction;
 
-  constraint inp_valid{INP_VALID inside {0,1,2,3};}
-
+  constraint inp_valid{INP_VALID ==3;}
+  constraint operands{OPA==255;} //only for width =8 cout =1 check
   constraint ce{CE ==1;}
-  constraint cmd{CMD inside {0,1,2,3,4,5,12,13};}  //2 operand whne inp=00,01,10,11 arithmatic
-  constraint MODE_1{MODE==0;}
+  constraint cmd{CMD inside{0,1,2,3};} 
+  constraint MODE_1{MODE==1;}
 
 
    virtual function alu_transaction copy();
@@ -310,12 +309,12 @@ class alu_transaction12 extends alu_transaction;
   endfunction
 endclass
 
-class alu_transaction13 extends alu_transaction;
+/*class alu_transaction13 extends alu_transaction;
 
   constraint inp_valid{INP_VALID inside {0,1,2,3};}
 
   constraint ce{CE ==0;}
-  constraint cmd{CMD inside {0,1,2,3,8,9,10};}  //2 operand whne inp=00,01,10,11 arithmatic
+  constraint cmd{CMD inside {0,1,2,3,8,9,10};}  
   constraint MODE_1{MODE==1;}
 
 
@@ -331,4 +330,4 @@ class alu_transaction13 extends alu_transaction;
     copy13.CMD        = this.CMD;
     return copy13;
   endfunction
-endclass
+endclass*/
